@@ -6,11 +6,12 @@ gem 'rails', '4.0.1'
 
 gem 'rails-api'
 
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'pg', '~> 0.17.0'
+gem 'devise'
 
-
-
+group :development, :test do
+  gem 'rspec-rails'
+end
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'
