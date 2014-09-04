@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140903015423) do
+ActiveRecord::Schema.define(version: 20140904123259) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "nfl_players", force: true do |t|
+    t.integer  "nfl_team_id"
+    t.string   "firstname"
+    t.string   "lastname"
+    t.integer  "nfl_position_id"
+    t.string   "myfantasyleagueid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "nfl_players", ["nfl_position_id"], name: "index_nfl_players_on_nfl_position_id", using: :btree
+  add_index "nfl_players", ["nfl_team_id"], name: "index_nfl_players_on_nfl_team_id", using: :btree
 
   create_table "nfl_positions", force: true do |t|
     t.string   "abbreviation"
@@ -27,6 +40,7 @@ ActiveRecord::Schema.define(version: 20140903015423) do
     t.string   "mascot"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "abbreviation"
   end
 
   create_table "users", force: true do |t|

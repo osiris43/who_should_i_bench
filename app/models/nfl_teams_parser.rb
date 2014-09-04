@@ -9,9 +9,15 @@ class NflTeamsParser
       puts p
       city = p['name'].split(',')[1].strip()
       mascot = p['name'].split(',')[0].strip()
+      abbreviation = p['team']
 
-      NflTeam.create!(:city => city, :mascot => mascot)
-
+      team = NflTeam.where(:city => city, :mascot => mascot).first
+      if team.nil?
+        NflTeam.create!(:city => city, :mascot => mascot)
+      else
+        team.update_attributes(:abbreviation => abbreviation)
+        team.save
+      end
     end
 
   end
