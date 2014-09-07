@@ -1,8 +1,8 @@
 class NflPlayer < ActiveRecord::Base
-  belongs_to :nfl_team
-  belongs_to :nfl_position
-  
+  belongs_to :position, :foreign_key => "nfl_position_id", :class_name => "NflPosition"
+  belongs_to :team, :foreign_key => "nfl_team_id", :class_name => "NflTeam"
   validates_presence_of :firstname, :lastname, :nfl_team, :nfl_position
+
 
   def from_json data
     name = data['name'].split(',')

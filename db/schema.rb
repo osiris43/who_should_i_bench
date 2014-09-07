@@ -11,10 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140904123259) do
+ActiveRecord::Schema.define(version: 20140906221621) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "nfl_game_passing_stats", force: true do |t|
+    t.integer  "nfl_player_id"
+    t.integer  "nfl_game_id"
+    t.integer  "completions"
+    t.integer  "attempts"
+    t.integer  "yards"
+    t.integer  "tds"
+    t.integer  "interceptiosn"
+    t.integer  "sacks"
+    t.integer  "sack_yards"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "nfl_game_passing_stats", ["nfl_game_id"], name: "index_nfl_game_passing_stats_on_nfl_game_id", using: :btree
+  add_index "nfl_game_passing_stats", ["nfl_player_id"], name: "index_nfl_game_passing_stats_on_nfl_player_id", using: :btree
+
+  create_table "nfl_games", force: true do |t|
+    t.integer  "away_team_id"
+    t.integer  "home_team_id"
+    t.integer  "season"
+    t.integer  "week"
+    t.integer  "nfl_season_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "gamedate"
+  end
+
+  add_index "nfl_games", ["nfl_season_type_id"], name: "index_nfl_games_on_nfl_season_type_id", using: :btree
 
   create_table "nfl_players", force: true do |t|
     t.integer  "nfl_team_id"
@@ -31,6 +61,12 @@ ActiveRecord::Schema.define(version: 20140904123259) do
 
   create_table "nfl_positions", force: true do |t|
     t.string   "abbreviation"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "nfl_season_types", force: true do |t|
+    t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

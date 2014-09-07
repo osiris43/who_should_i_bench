@@ -7,9 +7,20 @@ gem 'rails', '4.0.1'
 gem 'rails-api'
 
 gem 'pg', '~> 0.17.0'
+gem 'nokogiri'
 
 group :development, :test do
   gem 'rspec-rails'
+end
+
+group :test do
+  gem 'webrat'
+  gem 'mocha', :require => false
+  gem "factory_girl_rails", "~> 4.0"
+  gem 'guard-rspec'
+  gem 'capybara', '1.1.2'
+  gem 'rb-fsevent', '0.9.3', :require => false
+  gem 'growl'
 end
 
 # To use ActiveModel has_secure_password

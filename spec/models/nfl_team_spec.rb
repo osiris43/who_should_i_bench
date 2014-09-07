@@ -1,5 +1,17 @@
 require 'spec_helper'
 
 describe NflTeam do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:team) {FactoryGirl.create :nfl_team}
+
+  it "responds to nfl_players" do
+    team.should respond_to(:nfl_players)
+  end
+
+  it "looks up player by last name" do
+    team.find_player("Romo").should.== team.nfl_players.first
+  end
+  
+  it "looks up player by last name and position" do
+    team.find_player("Romo", "QB").should.== team.nfl_players.first
+  end
 end

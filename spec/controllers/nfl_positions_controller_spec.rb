@@ -24,8 +24,9 @@ describe NflPositionsController do
   end
 
   describe "GET 'show'" do
+    let(:position) { NflPosition.create!(:abbreviation => 'QB')}
     it "returns http success" do
-      get 'show'
+      get 'show', :id => position
       response.should be_success
     end
   end

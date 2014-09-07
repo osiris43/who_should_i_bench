@@ -9,9 +9,9 @@ describe NflTeamsController do
     end
   end
 
-  describe "GET 'cnew'" do
+  describe "GET 'new'" do
     it "returns http success" do
-      get 'cnew'
+      get 'new'
       response.should be_success
     end
   end
@@ -24,8 +24,9 @@ describe NflTeamsController do
   end
 
   describe "GET 'show'" do
+    let(:team) { NflTeam.create!(:city => 'Dallas', :mascot => 'Cowboys')}
     it "returns http success" do
-      get 'show'
+      get 'show', :id => team
       response.should be_success
     end
   end
