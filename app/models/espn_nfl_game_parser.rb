@@ -13,6 +13,7 @@ class EspnNflGameParser
       puts "Game was nil"
     end
     parse_passing
+    parse_rushing
   end
 
   def get_game
@@ -35,23 +36,36 @@ class EspnNflGameParser
   def parse_rushing
     away = @doc.css('table.mod-data tbody')[3]
     home = @doc.css('table.mod-data tbody')[4]
-
+    parse_rushing_data(away, @away)
+    parse_rushing_data(home, @home)
   end
 
   def parse_rushing_data(data, team)
+    data.css('tr').each do |row|
+      data = row.css('td')
+      namedata = data[0].css('a')[0]['href'].split('/').last.split("-")
+      player = team.find_player(namedata[1].capitalize, namedata[0].capitalize)
+      carries = data[1].content
+      yards = data[2].content
+      tds = data[4].content
+      longest = data[5].content
+      NflGameRushingStat.create!(:nfl_player => player, :nfl_game => @game,
+                                 :carries => carries, :yards => yards,
+                                 :tds => tds, :longest => longest)
+    end
   end
 
   def parse_passing_data(data, team)
     data.css('tr').each do |row|
       data = row.css('td')
       namedata = data[0].css('a')[0]['href'].split('/').last.split("-")
-      qb = team.nfl_players.where(:lastname => namedata[1].capitalize, :firstname => namedata[0].capitalize).first
+      player = team.find_player(namedata[1].capitalize, namedata[0].capitalize)
       completions, attempts = data[1].content.split('/')
       yards = data[2].content
       tds = data[4].content
       interceptions = data[5].content
       sacks, sack_yards = data[6].content.split('-')
-      NflGamePassingStat.create!(:nfl_player => qb, :nfl_game => @game,
+      NflGamePassingStat.create!(:nfl_player => player, :nfl_game => @game,
                                  :completions => completions, :attempts => attempts,
                                  :yards => yards, :tds => tds,
                                  :interceptions => interceptions, :sacks => sacks,

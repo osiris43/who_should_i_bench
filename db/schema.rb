@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140906221621) do
+ActiveRecord::Schema.define(version: 20140907225136) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,7 @@ ActiveRecord::Schema.define(version: 20140906221621) do
     t.integer  "attempts"
     t.integer  "yards"
     t.integer  "tds"
-    t.integer  "interceptiosn"
+    t.integer  "interceptions"
     t.integer  "sacks"
     t.integer  "sack_yards"
     t.datetime "created_at"
@@ -32,6 +32,20 @@ ActiveRecord::Schema.define(version: 20140906221621) do
 
   add_index "nfl_game_passing_stats", ["nfl_game_id"], name: "index_nfl_game_passing_stats_on_nfl_game_id", using: :btree
   add_index "nfl_game_passing_stats", ["nfl_player_id"], name: "index_nfl_game_passing_stats_on_nfl_player_id", using: :btree
+
+  create_table "nfl_game_rushing_stats", force: true do |t|
+    t.integer  "nfl_player_id"
+    t.integer  "nfl_game_id"
+    t.integer  "carries"
+    t.integer  "yards"
+    t.integer  "tds"
+    t.integer  "longest"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "nfl_game_rushing_stats", ["nfl_game_id"], name: "index_nfl_game_rushing_stats_on_nfl_game_id", using: :btree
+  add_index "nfl_game_rushing_stats", ["nfl_player_id"], name: "index_nfl_game_rushing_stats_on_nfl_player_id", using: :btree
 
   create_table "nfl_games", force: true do |t|
     t.integer  "away_team_id"

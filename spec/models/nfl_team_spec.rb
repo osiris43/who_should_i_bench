@@ -8,10 +8,10 @@ describe NflTeam do
   end
 
   it "looks up player by last name" do
-    team.find_player("Romo").should.== team.nfl_players.first
+    team.find_player("Romo", "Tony").should.== team.nfl_players.first
   end
   
   it "looks up player by last name and position" do
-    team.find_player("Romo", "QB").should.== team.nfl_players.first
+    team.find_player("Romo", "Tony", "QB").should.== team.nfl_players.first
   end
 end

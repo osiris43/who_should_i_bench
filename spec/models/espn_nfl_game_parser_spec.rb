@@ -8,5 +8,6 @@ describe EspnNflGameParser do
     parser.get_game_date.year.should == 2014
     parser.get_game_date.day.should == 4
   end
+
 end
 
