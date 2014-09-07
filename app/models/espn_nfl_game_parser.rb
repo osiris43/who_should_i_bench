@@ -14,6 +14,7 @@ class EspnNflGameParser
     end
     parse_passing
     parse_rushing
+    parse_receiving
   end
 
   def get_game
@@ -38,6 +39,30 @@ class EspnNflGameParser
     home = @doc.css('table.mod-data tbody')[4]
     parse_rushing_data(away, @away)
     parse_rushing_data(home, @home)
+  end
+
+  def parse_receiving
+    away = @doc.css('table.mod-data tbody')[5]
+    home = @doc.css('table.mod-data tbody')[6]
+    parse_receiving_data(away, @away)
+    parse_receiving_data(home, @home)
+  end
+
+  def parse_receiving_data(data, team)
+    data.css('tr').each do |row|
+      data = row.css('td')
+      namedata = data[0].css('a')[0]['href'].split('/').last.split("-")
+      player = team.find_player(namedata[1].capitalize, namedata[0].capitalize)
+      receptions = data[1].content
+      yards = data[2].content
+      tds = data[4].content
+      longest = data[5].content
+      targets = data[6].content
+      NflGameReceivingStat.create!(:nfl_player => player, :nfl_game => @game,
+                                 :receptions => receptions, :yards => yards,
+                                 :tds => tds, :longest => longest,
+                                 :targets => targets)
+    end
   end
 
   def parse_rushing_data(data, team)
