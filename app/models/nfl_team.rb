@@ -11,9 +11,18 @@ class NflTeam < ActiveRecord::Base
       firstname = exceptions[firstname]
     end
     if position.nil?
-      return nfl_players.where(:lastname => lastname).first
+      player = nfl_players.where(:lastname => lastname).first
     else
-      NflPlayer.joins(:position).where(nfl_positions: {abbreviation: position}, lastname: lastname).first
+      player = nfl_players.joins(:position).where(nfl_positions: {abbreviation: position}, lastname: lastname).first
     end
+
+    if player.nil?
+      player = nfl_players.where("lastname LIKE ? AND firstname LIKE ?", "%#{lastname}%", "%#{firstname}%").first
+      if player.nil?
+        puts "Lastname:#{lastname}\tFirst:#{firstname}"
+      end
+    end
+
+    player
   end
 end
