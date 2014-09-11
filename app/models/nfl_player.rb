@@ -1,7 +1,7 @@
 class NflPlayer < ActiveRecord::Base
   belongs_to :position, :foreign_key => "nfl_position_id", :class_name => "NflPosition"
   belongs_to :team, :foreign_key => "nfl_team_id", :class_name => "NflTeam"
-  validates_presence_of :firstname, :lastname, :nfl_team, :nfl_position
+  validates_presence_of :firstname, :lastname, :team, :position
 
 
   def from_json data
