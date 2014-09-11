@@ -4,7 +4,7 @@ class NflPlayer < ActiveRecord::Base
   validates_presence_of :firstname, :lastname, :team, :position
 
 
-  def from_json data
+  def from_mfljson data
     name = data['name'].split(',')
     abbv = data['team']
     team = NflTeam.find_by_abbreviation(abbv)
