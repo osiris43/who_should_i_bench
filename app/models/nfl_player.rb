@@ -12,7 +12,7 @@ class NflPlayer < ActiveRecord::Base
     if pos.nil?
       pos = NflPosition.create!(:abbreviation => data['position'])
     end
-    update_attributes(:lastname => name[0],:firstname => name[1].strip, :nfl_team => team, :nfl_position => pos,
+    update_attributes(:lastname => name[0],:firstname => name[1].strip, :team => team, :position => pos,
                       :myfantasyleagueid => data['id'])
   end
 end
