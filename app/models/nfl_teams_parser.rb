@@ -2,8 +2,8 @@ class NflTeamsParser
   require 'open-uri'
   
   def parse_teams
-    #@fl = open('http://football.myfantasyleague.com/2014/export?TYPE=players&L=&W=&JSON=1')
-    @fl = open(File.join(Rails.root, "lib", "tasks", "players.json"), "r")
+    @fl = open('http://football.myfantasyleague.com/2014/export?TYPE=players&L=&W=&JSON=1')
+    #@fl = open(File.join(Rails.root, "lib", "tasks", "players.json"), "r")
     data = get_team_data
     data.each do |p|
       puts p

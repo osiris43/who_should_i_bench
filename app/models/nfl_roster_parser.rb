@@ -11,8 +11,8 @@ class NflRosterParser
 
   def parse_players
     if @fl.nil?
-      #@fl = open('http://football.myfantasyleague.com/2014/export?TYPE=players&L=&W=&JSON=1')
-      @fl = open(File.join(Rails.root, "lib", "tasks", "players.json"), "r")
+      @fl = open('http://football.myfantasyleague.com/2014/export?TYPE=players&L=&W=&JSON=1')
+      #@fl = open(File.join(Rails.root, "lib", "tasks", "players.json"), "r")
     end
 
     data = get_player_data
