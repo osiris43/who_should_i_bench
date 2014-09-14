@@ -3,7 +3,10 @@ class NflTeam < ActiveRecord::Base
 
 
   def find_player(lastname, firstname, position=nil)
-    exceptions = {"Dujuan" => "DuJuan"}
+    exceptions = {"Dujuan" => "DuJuan", "Mcfadden" => "McFadden", 
+                  "Mckinnon" => "McKinnon", "Mccoy" => "McCoy",
+                  "Mccluster" => "McCluster", "Mccown" => "McCown",
+                  "Lamichael" => "LaMichael"}
     if exceptions.include?(lastname)
       lastname = exceptions[lastname]
     end
