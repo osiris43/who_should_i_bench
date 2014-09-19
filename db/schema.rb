@@ -11,10 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140912120352) do
+ActiveRecord::Schema.define(version: 20140916020646) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "fantasy_league_sites", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "fantasy_leagues", force: true do |t|
+    t.integer  "fantasy_league_site_id"
+    t.string   "league_id"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "fantasy_leagues", ["fantasy_league_site_id"], name: "index_fantasy_leagues_on_fantasy_league_site_id", using: :btree
 
   create_table "nfl_game_passing_stats", force: true do |t|
     t.integer  "nfl_player_id"
@@ -74,6 +90,18 @@ ActiveRecord::Schema.define(version: 20140912120352) do
   end
 
   add_index "nfl_games", ["nfl_season_type_id"], name: "index_nfl_games_on_nfl_season_type_id", using: :btree
+
+  create_table "nfl_player_scores", force: true do |t|
+    t.integer  "nfl_player_id"
+    t.integer  "season"
+    t.integer  "week"
+    t.float    "score"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "fantasy_league_id"
+  end
+
+  add_index "nfl_player_scores", ["nfl_player_id"], name: "index_nfl_player_scores_on_nfl_player_id", using: :btree
 
   create_table "nfl_players", force: true do |t|
     t.integer  "nfl_team_id"

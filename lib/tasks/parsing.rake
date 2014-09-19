@@ -21,3 +21,14 @@ task :parse_games, [:week, :season] => [:environment] do |t, args|
     parser.parse
   end
 end
+
+task :parse_mfl_scores, [:week, :season, :mflleague] => [:environment] do |t, args|
+  week = args.week
+  season = args.season
+  mflleague = FantasyLeague.where(:league_id => args.mflleague).first
+  require 'open-uri'
+  require 'nokogiri'
+  scores = JSON.parse(open("http://football4.myfantasyleague.com/#{season}/export?TYPE=playerScores&L=#{mflleague.league_id}&W=#{week}&JSON=1").read)
+  parser = NflPlayerScoresParser.new
+  parser.parse_weekly_scores(scores, week, season, mflleague)
+end

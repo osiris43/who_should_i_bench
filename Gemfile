@@ -10,6 +10,7 @@ gem 'rails-api'
 
 gem 'pg', '~> 0.17.0'
 gem 'nokogiri'
+gem 'rabl'
 
 group :production do
   gem 'rails_12factor'

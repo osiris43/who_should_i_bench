@@ -1,14 +1,9 @@
 class MflRostersController < ApplicationController
   require 'open-uri'
 
-  #def index
-  #  franchises = get_franchises(params[:id])
-  #  render json: franchises, :callback => params['callback']
-  #end
 
   def index
     league = params[:mfl_league_id]
-
     franchises = get_franchises(league)
     
     render json: franchises.as_json(only: ["id", "name"]), :callback => params['callback']
@@ -16,16 +11,19 @@ class MflRostersController < ApplicationController
   end
 
   def show
-    league = params[:mfl_league_id]
+    @league = params[:mfl_league_id]
 
-    data1 = get_data_from_mfl("http://football4.myfantasyleague.com/2014/export?TYPE=rosters&L=#{league}&W=&JSON=1")
+    data1 = get_data_from_mfl("http://football4.myfantasyleague.com/2014/export?TYPE=rosters&L=#{@league}&W=&JSON=1")
     rosters = data1['rosters']['franchise']
     roster = rosters.select{|r| r['id'] == params['id']}.first
 
     playerids = roster['player'].collect{|p| p["id"]}
-    players = NflPlayer.where(:myfantasyleagueid => playerids).all
-    render json: players.as_json(include: {position: {only: :abbreviation},team: {only: [:city, :mascot]}} ), 
-      :callback => params['callback']
+    @players = NflPlayer.where(:myfantasyleagueid => playerids).all
+
+    render "mfl_rosters/show"
+    #render json: players.as_json(include: {position: {only: :abbreviation},
+    #                                       team: {only: [:city, :mascot]}} ), 
+    #  :callback => params['callback']
 
   end
 
