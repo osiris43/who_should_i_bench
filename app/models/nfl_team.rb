@@ -6,7 +6,8 @@ class NflTeam < ActiveRecord::Base
     exceptions = {"Dujuan" => "DuJuan", "Mcfadden" => "McFadden", 
                   "Mckinnon" => "McKinnon", "Mccoy" => "McCoy",
                   "Mccluster" => "McCluster", "Mccown" => "McCown",
-                  "Lamichael" => "LaMichael"}
+                  "Lamichael" => "LaMichael", "Dimarco" => "DiMarco",
+                  "Lafell" => "LaFell", "Mcknight" => "McKnight"}
     if exceptions.include?(lastname)
       lastname = exceptions[lastname]
     end
