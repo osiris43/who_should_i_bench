@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.0.0'
+ruby '2.2.2'
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.0.1'
+gem 'rails', '4.2.3'
 
 
 gem 'rails-api'
@@ -23,10 +22,10 @@ end
 group :test do
   gem 'webrat'
   gem 'mocha', :require => false
-  gem "factory_girl_rails", "~> 4.0"
+  gem 'factory_girl_rails'
   gem 'guard-rspec'
-  gem 'capybara', '1.1.2'
-  gem 'rb-fsevent', '0.9.3', :require => false
+  gem 'capybara'
+  gem 'rb-fsevent', :require => false
   gem 'growl'
 end
 

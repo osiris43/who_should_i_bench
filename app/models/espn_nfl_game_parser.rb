@@ -12,6 +12,7 @@ class EspnNflGameParser
     if @game.nil?
       puts "Game was nil"
     end
+    parse_team_stats
     parse_passing
     parse_rushing
     parse_receiving
@@ -47,6 +48,45 @@ class EspnNflGameParser
     parse_receiving_data(away, @away)
     parse_receiving_data(home, @home)
   end
+  
+  def parse_team_stats
+    data = @doc.css('table.mod-data tbody')[0]
+    rows = data.css('tr')
+    away_passing = rows[10].css('td')[1].content
+    home_passing = rows[10].css('td')[2].content
+    away_passing_comp, away_passing_att = rows[11].css('td')[1].content.split('-')
+    home_passing_comp, home_passing_att = rows[11].css('td')[2].content.split('-')
+    away_rushing = rows[15].css('td')[1].content
+    home_rushing = rows[15].css('td')[2].content
+    away_rushing_att = rows[16].css('td')[1].content
+    home_rushing_att = rows[16].css('td')[2].content
+    
+    NflTeamPassingStat.find_or_initialize_by(:nfl_game => @game, :nfl_team => @game.away_team) do |stat|
+      stat.yards = away_passing
+      stat.attempts = away_passing_att
+      stat.completions = away_passing_comp
+      stat.save
+    end
+
+    NflTeamPassingStat.find_or_initialize_by(:nfl_game => @game, :nfl_team => @game.home_team) do |stat|
+      stat.yards = home_passing
+      stat.attempts = home_passing_att
+      stat.completions = home_passing_comp
+      stat.save
+    end
+
+    NflTeamRushingStat.find_or_initialize_by(:nfl_game => @game, :nfl_team => @game.away_team) do |stat|
+      stat.yards = away_rushing
+      stat.attempts = away_rushing_att
+      stat.save
+    end
+    
+    NflTeamRushingStat.find_or_initialize_by(:nfl_game => @game, :nfl_team => @game.home_team) do |stat|
+      stat.yards = home_rushing
+      stat.attempts = home_rushing_att
+      stat.save
+    end
+  end
 
   def parse_receiving_data(data, team)
     data.css('tr').each do |row|
@@ -58,10 +98,14 @@ class EspnNflGameParser
       tds = data[4].content
       longest = data[5].content
       targets = data[6].content
-      NflGameReceivingStat.create!(:nfl_player => player, :nfl_game => @game,
-                                 :receptions => receptions, :yards => yards,
-                                 :tds => tds, :longest => longest,
-                                 :targets => targets)
+      NflGameReceivingStat.find_or_initialize_by(:nfl_player => player, :nfl_game => @game) do |stat|
+        stat.receptions = receptions
+        stat.yards = yards
+        stat.tds = tds
+        stat.longest = longest
+        stat.targets = targets
+        stat.save
+      end
     end
   end
 
@@ -74,9 +118,13 @@ class EspnNflGameParser
       yards = data[2].content
       tds = data[4].content
       longest = data[5].content
-      NflGameRushingStat.create!(:nfl_player => player, :nfl_game => @game,
-                                 :carries => carries, :yards => yards,
-                                 :tds => tds, :longest => longest)
+      NflGameRushingStat.find_or_initialize_by(:nfl_player => player, :nfl_game => @game) do |stat|
+        stat.carries = carries
+        stat.yards = yards
+        stat.tds = tds
+        stat.longest = longest
+        stat.save
+      end
     end
   end
 
@@ -90,11 +138,16 @@ class EspnNflGameParser
       tds = data[4].content
       interceptions = data[5].content
       sacks, sack_yards = data[6].content.split('-')
-      NflGamePassingStat.create!(:nfl_player => player, :nfl_game => @game,
-                                 :completions => completions, :attempts => attempts,
-                                 :yards => yards, :tds => tds,
-                                 :interceptions => interceptions, :sacks => sacks,
-                                 :sack_yards => sack_yards)
+      NflGamePassingStat.find_or_initialize_by(:nfl_player => player, :nfl_game => @game) do |stat|
+        stat.completions = completions
+        stat.yards = yards
+        stat.tds = tds
+        stat.attempts = attempts
+        stat.sacks = sacks
+        stat.interceptions = interceptions
+        stat.sack_yards = sack_yards
+        stat.save
+      end
     end
   end
 

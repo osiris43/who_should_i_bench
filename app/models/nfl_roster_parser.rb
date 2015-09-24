@@ -18,9 +18,7 @@ class NflRosterParser
     data = get_player_data
     data['player'].each do |p|
       puts p
-      player = NflPlayer.new
-      player.from_mfljson(p)
-      player.save
+      NflPlayer.from_mfljson(p)
     end
 
   end

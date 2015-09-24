@@ -11,5 +11,9 @@ class NflTeamsController < ApplicationController
   end
 
   def show
+    @team = NflTeam.find(params[:id])
+    @avg = @team.rushing_average_by_season_week(2014, 3)
+    @mod = @team.rushing_modifier_by_season_week(2014, 3)
+    render "nfl_teams/show"
   end
 end

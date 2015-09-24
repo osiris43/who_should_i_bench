@@ -2,7 +2,7 @@ WhoShouldIBench::Application.routes.draw do
   get "users/new"
   get "users/create"
 
-  resources :nfl_teams, :nfl_positions
+  resources :nfl_teams, :nfl_positions, :nfl_players
 
   resources :mfl_leagues do
     resources :mfl_rosters

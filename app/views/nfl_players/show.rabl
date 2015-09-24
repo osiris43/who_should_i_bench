@@ -1,5 +1,4 @@
-collection @players
+object @player
 attributes :firstname, :lastname, :id
 child(:position){attributes :abbreviation}
 child(:team){attributes :city, :mascot, :abbreviation}
-node(:points_scored){|player| player.points_scored_by_mfl_league(@league)}

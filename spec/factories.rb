@@ -1,9 +1,25 @@
 FactoryGirl.define do
+  factory :nfl_game do
+    association :away_team, factory: :nfl_team
+    association :home_team, factory: :nfl_team, city: "New York", mascot: "Giants",
+      abbreviation: "NYG"
+    season "2014"
+    week "1"
+    gamedate = Date.current
+  end
+
   factory :nfl_player do
     firstname "Tony"
     lastname  "Romo"
-    position :nfl_position
-    team :nfl_team
+    position  :factory => :nfl_position
+    team      :factory => :nfl_team
+  end
+
+  factory :runningback, :parent => :nfl_player do
+    firstname   "Darren"
+    lastname    "Sproles"
+    team        :factory => :nfl_team
+    position    :factory => :nfl_position, :abbreviation => "RB"
   end
 
   factory :nfl_team do

@@ -21,10 +21,6 @@ class MflRostersController < ApplicationController
     @players = NflPlayer.where(:myfantasyleagueid => playerids).all
 
     render "mfl_rosters/show"
-    #render json: players.as_json(include: {position: {only: :abbreviation},
-    #                                       team: {only: [:city, :mascot]}} ), 
-    #  :callback => params['callback']
-
   end
 
   def get_data_from_mfl(url)
